@@ -1,8 +1,8 @@
 define(function (require) {
-    var _ = require('underscore'),
-        $ = require('jquery'),
+    var $ = require('jquery'),
         BaseViewModel = require('app/jira/base_view_model'),
-        Command = require('app/jira/command');
+        Command = require('app/jira/command'),
+        Model = require('app/jira/model');
         
     function FilterEntryViewModel () {
         BaseViewModel.prototype.constructor.apply(this, arguments);
@@ -17,8 +17,10 @@ define(function (require) {
             return this.opts.selected;
         },
         setSelected: function (value) {
+            var model = Model.getCurrent();
             this.opts.selected = value;
-            $(this.opts.eventDispatcher).trigger('change:filter');
+            $(this).trigger('change:selected');
+            model.toggleFilter('status', this.getId(), value);
         },
         init: function (opts) {
             BaseViewModel.prototype.init.apply(this, arguments);

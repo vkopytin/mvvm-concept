@@ -1,14 +1,12 @@
 define(function (require) {
-    var _ = require('underscore'),
-        $ = require('jquery'),
-        BaseViewModel = require('app/jira/base_view_model');
+    var BaseViewModel = require('app/jira/base_view_model');
         
-    function FilterEntryViewModel () {
+    function IssueEntryViewModel () {
         BaseViewModel.prototype.constructor.apply(this, arguments);
     }
         
     return BaseViewModel.extend({
-        ctor: FilterEntryViewModel,
+        ctor: IssueEntryViewModel,
         init: function (opts) {
             BaseViewModel.prototype.init.apply(this, arguments);
         }

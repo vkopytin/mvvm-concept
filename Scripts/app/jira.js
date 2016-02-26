@@ -1,21 +1,17 @@
 define(function (require) {
-    var $ = require('jquery'),
-        MainViewModel = require('app/jira/main_view_model'),
-        MainView = require('app/jira/main_view'),
-        uiDispatcher = require('app/jira/ui_dispatcher');
+    var Page = require('app/page'),
+        BaseViewModel = require('app/jira/base_view_model'),
+        NavigationViewModel = require('app/jira/navigation_view_model'),
+        PageViewModel = require('app/page_view_model');
+
+    // Inject debendencies
+    BaseViewModel.prototype.navigation = new NavigationViewModel();
 
     return {
         init: function () {
-            var eventDispatcher = uiDispatcher,
-                view = new MainView({
-                el: $('.jira-issues-list'),
-                eventDispatcher: eventDispatcher,
-                viewModel: new MainViewModel({
-                    eventDispatcher: eventDispatcher
-                })
-            });
-            
-            view.draw();
+            new Page({
+                viewModel: new PageViewModel()
+            }); 
         }
     };
 });

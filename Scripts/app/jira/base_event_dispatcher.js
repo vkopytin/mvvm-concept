@@ -1,17 +1,15 @@
 define(function (require) {
-    var _ = require('underscore'),
-        utils = require('app/jira/utils');
+    var Base = require('app/jira/base');
     
     function BaseEventDispatcher (opts) {
+        Base.prototype.constructor.apply(this, arguments);
         this.init(opts);
     }
     
-    _.extend(BaseEventDispatcher.prototype, {
+    return Base.extend({
+        ctor: BaseEventDispatcher,
         init: function (opts) {
+            Base.prototype.init.apply(this, arguments);
         }
     });
-    
-    BaseEventDispatcher.extend = utils.extend;
-    
-    return BaseEventDispatcher;
 });

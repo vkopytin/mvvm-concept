@@ -1,18 +1,15 @@
 define(function (require) {
-    var _ = require('underscore'),
-        utils = require('app/jira/utils');
+    var Base = require('app/jira/base');
             
     function ModelBase () {
+        Base.prototype.constructor.apply(this, arguments);
+        this.init();
     }
     
-    _.extend(ModelBase.prototype, {
+    return Base.extend({
         ctor: ModelBase,
         init: function () {
-            
+            Base.prototype.init.apply(this, arguments);
         }
     });
-    
-    ModelBase.extend = utils.extend;
-    
-    return ModelBase;
 });

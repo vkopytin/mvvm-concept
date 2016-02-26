@@ -1,12 +1,8 @@
 define(function (require) {
     var _ = require('underscore'),
         $ = require('jquery'),
-        hgn = require('hogan'),
         BaseView = require('app/jira/base_view'),
-        
-        filterItemTemplate = hgn.compile('\
-      <button type="button" data-command="Select" class="btn btn-sm btn-{{#selected}}primary{{/selected}}{{^selected}}default{{/selected}} status-name" title="{{description}}" style="margin: 4px 6px;">{{name}}</button>\
-  ');
+        template = require('hgn!app/main/templates/jira.filter_item');
         
     function FilterItemView () {
         BaseView.prototype.constructor.apply(this, arguments);
@@ -17,6 +13,12 @@ define(function (require) {
         getInput: function () {
             return $('button', this.$el);
         },
+        commands: {
+            'click .status-name': 'SelectCommand'
+        },
+        change: {
+            'selected': 'onChangeSelected'
+        },
         init: function (opts) {
             BaseView.prototype.init.apply(this, arguments);
             this.$el = $('<span />');
@@ -24,15 +26,10 @@ define(function (require) {
             this.onChangeSelectedDelegate = _.bind(this.onChangeSelected, this);
             
             this.$el.on('click', '.status-name', _.bind(this.onClickHandler, this));
-            $(this.eventDispatcher).on('change:filter', this.onChangeSelectedDelegate);
-        },
-        remove: function () {
-            $(this.eventDispatcher).off('change:filter', this.onChangeSelectedDelegate);
-            this.$el.remove();
+            $(this.viewModel).on('change:selected', this.onChangeSelectedDelegate);
         },
         onClickHandler: function (evnt) {
-            var commandName = $(evnt.currentTarget).data('command'),
-                command = this.viewModel[commandName + 'Command'];
+            var command = this.viewModel.SelectCommand;
                 
             command.execute();
         },
@@ -45,7 +42,7 @@ define(function (require) {
         },
         draw: function () {
             var data = this.viewModel.toJSON(),
-                html = filterItemTemplate.render(data);
+                html = template(data);
                 
             this.$el.html(html);
             

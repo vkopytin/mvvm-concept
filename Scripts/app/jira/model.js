@@ -5,38 +5,63 @@ define(function (require) {
         inst;
             
     function JiraModel () {
+        ModelBase.prototype.constructor.apply(this, arguments);
     }
     
     return ModelBase.extend({
         ctor: JiraModel,
-        fetchIssues: function (data, func, scope) {
-            var res = $.Deferred();
-            
+        init: function () {
+            ModelBase.prototype.init.apply(this, arguments);
+            this.currentFilter = {};
+        },
+        getIssues: function () {
+            return this.issues;
+        },
+        setIssues: function (value) {
+            this.issues = value;
+            $(this).trigger('model.issues');
+        },
+        getStatuses: function () {
+            return this.statuses;
+        },
+        setStatuses: function (value) {
+            this.statuses = value;
+            $(this).trigger('model.statuses');
+        },
+        resetFilter: function () {
+            this.currentFilter = {};
+            this.fetchIssues();
+        },
+        toggleFilter: function (key, value, enable) {
+            var fval = this.currentFilter[key] || value,
+                values = _.without(fval.split(','), value);
+                
+            if (enable) {
+                values.push(value);
+            }
+            this.currentFilter[key] = values.join(',');
+            this.fetchIssues();
+        },
+        fetchIssues: function () {
             $.ajax({
                 url: '/mvc/home/issues',
                 type: 'GET',
-                data: data,
+                data: this.currentFilter,
                 success: _.bind(function (items, success, xhr) {
-                    func.call(scope || this, items);
-                    res.resolve(items);
+                    //console.log('Issues: ' + items.length);
+                    this.setIssues(items);
                 }, this)
             });
-            
-            return res.promise();
         },
-        fetchStatuses: function (func, scope) {
-            var res = $.Deferred();
-            
+        fetchStatuses: function () {
             $.ajax({
                 url: '/mvc/home/statuses',
                 type: 'GET',
                 success: _.bind(function (items, success, xhr) {
-                    func.call(scope || this, items);
-                    res.resolve(items);
+                    //console.log('Statuses: ' + items.length);
+                    this.setStatuses(items);
                 }, this)
             });
-            
-            return res.promise();
         }
     }, {
         getCurrent: function () {
