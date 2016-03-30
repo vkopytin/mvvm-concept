@@ -15,6 +15,7 @@ namespace Rebelmouse.jira {
         private readonly string password;
         private readonly JavaScriptSerializer deserializer = new JavaScriptSerializer();
         private readonly string baseApiUrl;
+        private readonly string projectKey = "BRAD";
 
         public JiraClient(string baseUrl, string username, string password) {
             this.username = username;
@@ -25,13 +26,19 @@ namespace Rebelmouse.jira {
 
         public IEnumerable<Issue> Issues {
             get {
-                return GetIssues();
+                return this.GetIssues();
             }
         }
         
         public IEnumerable<Status> Statuses {
             get {
-                return GetStatuses();
+                return this.GetStatuses();
+            }
+        }
+        
+        public IEnumerable<Issue> Epics {
+            get {
+                return this.GetEpics();
             }
         }
         
@@ -40,19 +47,38 @@ namespace Rebelmouse.jira {
             
             return statuses;
         }
+        
+        public IEnumerable<Issue> GetEpics() {
+            string[] fieldDef = null;
+            var epics = EnumerateIssuesByQuery(CreateCommonJql(this.projectKey, "Epic"), fieldDef, 0);
+            
+            return epics;
+        }
 
         public IEnumerable<Issue> GetIssues() {
-            var projectKey = "BRAD";
             string issueType = null;
             string[] fieldDef = null;
             return EnumerateIssuesByQuery(CreateCommonJql(projectKey, issueType), fieldDef, 0);
         }
         
-        public IEnumerable<Issue> GetIssues(string[] status) {
-            var projectKey = "BRAD";
-            var filters = string.Format("status IN ({0})", string.Join(",", status));
+        public IEnumerable<Issue> GetIssuesByStatus(string[] status) {
+            var inStatuses = string.Format("status IN ({0})", string.Join(",", status));
             string[] fieldDef = null;
-            return EnumerateIssuesByQuery(CreateCommonJql(projectKey, new string[] { filters }), fieldDef, 0);
+            return EnumerateIssuesByQuery(CreateCommonJql(this.projectKey, new string[] { inStatuses }), fieldDef, 0);
+        }
+        
+        public IEnumerable<Issue> GetIssuesByEpic(string[] epicLink) {
+            var inEpics = string.Format("\"Epic Link\" IN ({0})", string.Join(",", epicLink));
+            string[] fieldDef = null;
+            return EnumerateIssuesByQuery(CreateCommonJql(this.projectKey, new string[] { inEpics }), fieldDef, 0);
+        }
+        
+        public IEnumerable<Issue> GetIssues(string[] status, string[] epicLink) {
+            var inStatuses = string.Format("status IN ({0})", string.Join(",", status));
+            var inEpics = string.Format("\"Epic Link\" IN ({0})", string.Join(",", epicLink));
+            string[] fieldDef = null;
+            string jql = CreateCommonJql(this.projectKey, new string[] { inStatuses, inEpics });
+            return EnumerateIssuesByQuery(jql, fieldDef, 0);
         }
 
         private string ExecuteRequest(string method, string path) {

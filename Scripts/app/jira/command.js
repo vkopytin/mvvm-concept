@@ -1,5 +1,5 @@
 define(function (require) {
-    var Base = require('app/jira/base');
+    var Base = require('app/jira/base/base');
     
     function Command (opts) {
         Base.prototype.constructor.apply(this, arguments);

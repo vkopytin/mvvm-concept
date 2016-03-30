@@ -15,6 +15,10 @@ namespace hellomvc.Controllers
 {
     public class JiraController : Controller
     {
+        static string URL = "";
+        static string jUserID = "";
+        static string jPassword = "";
+
         public ActionResult Index ()
         {
             var mvcName = typeof(Controller).Assembly.GetName ();
@@ -24,8 +28,31 @@ namespace hellomvc.Controllers
             ViewData ["Runtime"] = isMono ? "Mono" : ".NET";
             ViewData ["Title"] = "C# MVC - Razor";
             ViewData ["ModuleName"] = "jira";
+            ViewData ["bootstrap"] = new {
+                issues = this.GetIssues("")
+            };
 
             return View ();
+        }
+        
+        [HttpGet]
+        public ActionResult Issues(string status="") {
+            var items = this.GetIssues(status);
+
+            return Json(items, JsonRequestBehavior.AllowGet);
+        }
+        
+        private IEnumerable<Issue> GetIssues(string status) {
+            var jiraClient = new JiraClient(URL, jUserID, jPassword);
+            var items = default(IEnumerable<Issue>);
+            
+            if (string.IsNullOrEmpty(status)) {
+                items = jiraClient.Issues;
+            } else {
+                items = jiraClient.GetIssuesByStatus(status.Split(','));
+            }
+            
+            return items;
         }
         
         [HttpGet]

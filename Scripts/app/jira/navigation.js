@@ -1,10 +1,10 @@
 define(function (require) {
     var $ = require('jquery'),
         _ = require('underscore'),
-        Base = require('app/jira/base'),
+        Base = require('app/jira/base/base'),
         components = {
-            'jira-report': ['app/jira/jira_view', 'app/jira/jira_view_model'],
-            'deploy-email': ['app/jira/email_view', 'app/jira/email_view_model']
+            'jira-report': ['app/jira/pages/jira_page', 'app/jira/view_models/jira_view_model'],
+            'deploy-email': ['app/jira/pages/email_page', 'app/jira/view_models/email_view_model']
         },
         inst;
     
@@ -35,7 +35,7 @@ define(function (require) {
             if (deps) {
                 require(deps, function (View, ViewModel) {
                     inst.view = new View({
-                        el: $('#page-wrapper'),
+                        el: $(document.body),
                         viewModel: new ViewModel()
                     }).draw();
                     

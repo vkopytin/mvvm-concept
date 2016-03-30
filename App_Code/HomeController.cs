@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 
 using Rebelmouse.jira;
 
@@ -63,23 +64,37 @@ namespace hellomvc.Controllers
         static string jPassword = "";
 
         [HttpGet]
-        public ActionResult Issues(string status="") {
+        [AsyncTimeout(8000)]
+        public Task<ActionResult> Issues(string status="", string epicLink="") {
+            return Task.Factory.StartNew(() => {
             var jiraClient = new JiraClient(URL, jUserID, jPassword);
             var items = default(IEnumerable<Issue>);
             
-            if (string.IsNullOrEmpty(status)) {
+            if (string.IsNullOrEmpty(status) && string.IsNullOrEmpty(epicLink)) {
                 items = jiraClient.Issues;
+            } else if (string.IsNullOrEmpty(status)) {
+                items = jiraClient.GetIssuesByEpic(epicLink.Split(','));
+            } else if (string.IsNullOrEmpty(epicLink)) {
+                items = jiraClient.GetIssuesByStatus(status.Split(','));
             } else {
-                items = jiraClient.GetIssues(status.Split(','));
+                items = jiraClient.GetIssues(status.Split(','), epicLink.Split(','));
             }
 
-            return Json(items, JsonRequestBehavior.AllowGet);
+            return (ActionResult)Json(items, JsonRequestBehavior.AllowGet);});
         }
         
         [HttpGet]
         public ActionResult Statuses() {
             var jiraClient = new JiraClient(URL, jUserID, jPassword);
             var items = jiraClient.Statuses;
+
+            return Json(items, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult Epics() {
+            var jiraClient = new JiraClient(URL, jUserID, jPassword);
+            var items = jiraClient.Epics;
 
             return Json(items, JsonRequestBehavior.AllowGet);
         }

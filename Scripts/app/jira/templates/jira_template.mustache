@@ -1,0 +1,62 @@
+<div id="page-inner">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-head-line">JIRA Report</h1>
+        </div>
+    </div>
+    <!-- /. ROW  -->
+        
+    <div class="row">
+        <div class="jira-issues-list col-md-12">
+            <!--   JIRA Issues -->
+                    JIRA Issues
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a href="javascript:(function(){HOST = 'https://dev.local';var jsCode = document.createElement('script');jsCode.setAttribute('src', HOST + '/mvc/jira/bookmarklet?' + Math.random());jsCode.setAttribute('id','jira-worktool-bookmarklet');document.getElementsByTagName('head')[0].appendChild(jsCode);}());"><button class="btn btn-lg btn-info">Jira bookmarklet</button></a>
+                    <button type="button" class="filter-reset btn btn-lg btn-primary">Reset</button>
+                    <label>Filter By Status</label>
+                </div>
+                <div class="panel-body">
+                    <div class="filter-items-statuses">
+                        <div class="form-group">
+                            <div class="filter-statuses"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <label>Filter By Epic</label>
+                </div>
+                <div class="panel-body">
+                    <div class="filter-items-epics">
+                        <div class="form-group">
+                            <div class="filter-epics"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End  JIRA Issues -->
+        </div>
+    </div>
+    <div class="row">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Priority</th>
+                                    <th><div>Key: Summary</div><div>Status</div></th>
+                                    <th>X</th>
+                                    <th>Updated</th>
+                                    <th>Assignee</th>
+                                </tr>
+                            </thead>
+                            <tbody class="issues-list">
+                            </tbody>
+                        </table>
+                    </div>
+    </div>
+    <!-- /. ROW  -->
+
+</div>
+<!-- /. PAGE INNER  -->

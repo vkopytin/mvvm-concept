@@ -1,7 +1,9 @@
 define(function (require) {
-    var _ = require('underscore');
+    var _ = require('underscore'),
+        $ = require('jquery'),
+        impl;
     
-    return {
+    return impl = {
         extend: function (protoProps, staticProps) {
             var parent = this;
             var child;
@@ -33,6 +35,27 @@ define(function (require) {
             child.__super__ = parent.prototype;
 
             return child;
+        },
+        loadViews: function (jsml, view) {
+            var queue = null;
+            _.each(jsml, function (item, propName) {
+                var res = $.Deferred(),
+                    typeName = item[0],
+                    options = item[1],
+                    subViews = item[2];
+                    
+                require([typeName], function (SubView) {
+                    view[propName] = new SubView(_.extend({}, options, {
+                        el: $(options.el, view.$el)
+                    })).draw();
+                    res.resolve(view[propName]);
+                    
+                    impl.loadViews(subViews, view[propName]);
+                });
+                queue = $.when(queue, res.promise());
+            });
+           
+           return queue;
         }
-    }
+    };
 });

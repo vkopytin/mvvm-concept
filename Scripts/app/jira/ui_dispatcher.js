@@ -1,5 +1,5 @@
 define(function (require) {
-    var BaseEventDispatcher = require('app/jira/base_event_dispatcher'),
+    var BaseEventDispatcher = require('app/jira/base/base_event_dispatcher'),
         inst;
         
     function UIDispatcher () {

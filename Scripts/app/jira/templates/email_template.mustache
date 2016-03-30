@@ -1,0 +1,31 @@
+<div id="page-inner">
+    <div class="row pad-top-botm ">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <h1 class="page-head-line">Tomorrow Deploy</h1>
+            <h1 class="page-subhead-line">Tomorrow deploy</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="email-contents col-lg-12 col-md-12 col-sm-12"><p>Hey, Ladies and Gentlemen,</p>
+            
+<p>Tasks from bellow are ready to deploy:</p>
+<p>{{#issues}}<div>{{index}}&bull; {{Key}}: {{fields.summary}};</div>
+{{/issues}}
+</p>
+<p>Proposed time to deploy: from 8:00AM till 11:00AM in GMT-0.</p>
+
+<p>Please, let me know, can somebody assist from your end?</p>
+
+<p>Thank you in advance.</p>
+</div>
+    </div>
+
+    <!-- /. ROW  -->
+    <div class="row pad-top-botm">
+        <div class="auto-email col-lg-12 col-md-12 col-sm-12">
+            <hr/>
+            <a class="btn btn-primary btn-lg" href="mailto:qa@rebelmouse.com?subject={{subject}}&body={{body}}">Create mail</a>
+        </div>
+    </div>
+    <!-- /. ROW  -->
+</div>

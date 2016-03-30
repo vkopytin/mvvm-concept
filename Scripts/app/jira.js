@@ -1,17 +1,16 @@
 define(function (require) {
-    var Page = require('app/page'),
-        BaseViewModel = require('app/jira/base_view_model'),
-        NavigationViewModel = require('app/jira/navigation_view_model'),
-        PageViewModel = require('app/page_view_model');
+    var $ = require('jquery'),
+        BaseViewModel = require('app/jira/base/base_view_model'),
+        PageViewModel = require('app/jira/view_models/navigation_view_model'),
+        navigation =
 
     // Inject debendencies
-    BaseViewModel.prototype.navigation = new NavigationViewModel();
+    BaseViewModel.prototype.navigation = new PageViewModel();
 
     return {
         init: function () {
-            new Page({
-                viewModel: new PageViewModel()
-            }); 
+            navigation.navigateTo('jira-report');
+            return true;
         }
     };
 });

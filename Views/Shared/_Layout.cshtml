@@ -19,17 +19,6 @@
 </head>
 <body>
     @RenderBody()
-    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
-    <!-- JQUERY SCRIPTS -->
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <!-- BOOTSTRAP SCRIPTS -->
-    <script src="assets/js/bootstrap.js"></script>
-     <!-- METISMENU SCRIPTS -->
-    <script src="assets/js/jquery.metisMenu.js"></script>
-    <!-- CUSTOM SCRIPTS -->
-    <script src="assets/js/custom.js"></script>
-
-
     <script type="text/javascript" src="@Url.Content("~/Scripts/libs/require.js")"></script>
     <script type="text/javascript">
     require.config({
@@ -44,9 +33,22 @@
             '@ViewBag.ModuleName': 'app/@ViewBag.ModuleName'
         }
     });
+    define('bootstrap', function () {
+        var a = @Html.Raw(Json.Encode(ViewData["bootstrap"]));
+        return a.Data;
+    });
     require(['@ViewBag.ModuleName'], function (module) {
         module.init();
     });
     </script>
+    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+    <!-- JQUERY SCRIPTS -->
+    <script src="assets/js/jquery-1.10.2.js"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="assets/js/bootstrap.js"></script>
+     <!-- METISMENU SCRIPTS -->
+    <script src="assets/js/jquery.metisMenu.js"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="assets/js/custom.js"></script>
 </body>
 </html>
