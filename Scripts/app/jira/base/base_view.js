@@ -30,6 +30,8 @@ define(function (require) {
             
             this.initBindings(bindings);
             this.initCommands(_.result(this, 'commands'));
+            this.$el.toggleClass('highlight', true);
+            this.$el.attr('data-type', this.__name);
         },
         finish: function () {
             this.$el.off();

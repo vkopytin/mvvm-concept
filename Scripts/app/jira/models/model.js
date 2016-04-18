@@ -57,7 +57,7 @@ define(function (require) {
         fetchIssues: function () {
             fetchIssuesXhr && fetchIssuesXhr.abort();
             fetchIssuesXhr = $.ajax({
-                url: '/mvc/home/issues',
+                url: '/home/issues',
                 type: 'GET',
                 data: this.currentFilter,
                 success: _.bind(function (items, success, xhr) {
@@ -69,7 +69,7 @@ define(function (require) {
         fetchStatuses: function () {
             fetchStatusesXhr && fetchStatusesXhr.abort();
             fetchStatusesXhr = $.ajax({
-                url: '/mvc/home/statuses',
+                url: '/home/statuses',
                 type: 'GET',
                 success: _.bind(function (items, success, xhr) {
                     //console.log('Statuses: ' + items.length);
@@ -80,7 +80,7 @@ define(function (require) {
         fetchEpics: function () {
             fetchEpicsXhr && fetchEpicsXhr.abort();
             fetchEpicsXhr = $.ajax({
-                url: '/mvc/home/epics',
+                url: '/home/epics',
                 type: 'GET',
                 success: _.bind(function (items, success, xhr) {
                     //console.log('Statuses: ' + items.length);

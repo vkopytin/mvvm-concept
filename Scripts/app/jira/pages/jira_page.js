@@ -35,7 +35,8 @@ define(function (require) {
         },
         draw: function () {
             var data = {},
-                html = template(data);
+                html = template(data),
+                res = $.Deferred();
                 
             this.$el.html(html);
             
@@ -53,21 +54,28 @@ define(function (require) {
                             }
                         }
                     }],
-                    epicsView: ['app/jira/views/epics_view', {
-                        el: '.filter-items-epics',
-                        viewModel: this.viewModel,
-                        bindings: {
-                            'change:epics': function (view, viewModel) {
-                                view.setItems(viewModel.getEpics());
+                    panelView: ['app/jira/views/panel_view', {
+                        el: '.epics-panel',
+                        title: 'Filter by Epic',
+                        viewModel: this.viewModel
+                    }, {
+                        epicsView: ['app/jira/views/epics_view', {
+                            el: '.filter-items-epics',
+                            viewModel: this.viewModel,
+                            bindings: {
+                                'change:epics': function (view, viewModel) {
+                                    view.setItems(viewModel.getEpics());
+                                }
                             }
-                        }
+                        }]
                     }]
                 }]
-            }, this);
+            }, this).done(_.bind(function () {
+                this.handlers.onDraw.call(this);
+                res.resolve(this);
+            }, this));    
             
-            this.handlers.onDraw.call(this);
-            
-            return this;              
+            return res.promise();  
         }
     });
 });

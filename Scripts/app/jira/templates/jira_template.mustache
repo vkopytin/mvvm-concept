@@ -12,7 +12,7 @@
                     JIRA Issues
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <a href="javascript:(function(){HOST = 'https://dev.local';var jsCode = document.createElement('script');jsCode.setAttribute('src', HOST + '/mvc/jira/bookmarklet?' + Math.random());jsCode.setAttribute('id','jira-worktool-bookmarklet');document.getElementsByTagName('head')[0].appendChild(jsCode);}());"><button class="btn btn-lg btn-info">Jira bookmarklet</button></a>
+                    <a href="javascript:(function(){HOST = '{{domain}}';var jsCode = document.createElement('script');jsCode.setAttribute('src', HOST + '/mvc/jira/bookmarklet?' + Math.random());jsCode.setAttribute('id','jira-worktool-bookmarklet');document.getElementsByTagName('head')[0].appendChild(jsCode);}());"><button class="btn btn-lg btn-info">Jira bookmarklet</button></a>
                     <button type="button" class="filter-reset btn btn-lg btn-primary">Reset</button>
                     <label>Filter By Status</label>
                 </div>
@@ -24,17 +24,7 @@
                     </div>
                 </div>
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <label>Filter By Epic</label>
-                </div>
-                <div class="panel-body">
-                    <div class="filter-items-epics">
-                        <div class="form-group">
-                            <div class="filter-epics"></div>
-                        </div>
-                    </div>
-                </div>
+            <div class="epics-panel panel panel-default">
             </div>
             <!-- End  JIRA Issues -->
         </div>

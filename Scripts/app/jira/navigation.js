@@ -37,7 +37,8 @@ define(function (require) {
                     inst.view = new View({
                         el: $(document.body),
                         viewModel: new ViewModel()
-                    }).draw();
+                    });
+                    inst.view.draw();
                     
                     _.defer(_.bind(inst.view.onNavigateTo, inst.view), 0);
                 });
@@ -49,7 +50,7 @@ define(function (require) {
                 return inst;
             }
         
-            return inst = new Navigation();
+            return inst = new Navigation({});
         }
     });
 });

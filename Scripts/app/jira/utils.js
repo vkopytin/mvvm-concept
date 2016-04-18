@@ -47,10 +47,11 @@ define(function (require) {
                 require([typeName], function (SubView) {
                     view[propName] = new SubView(_.extend({}, options, {
                         el: $(options.el, view.$el)
-                    })).draw();
-                    res.resolve(view[propName]);
+                    }));
                     
-                    impl.loadViews(subViews, view[propName]);
+                    $.when(view[propName].draw(), impl.loadViews(subViews, view[propName])).done(function () {
+                        res.resolve(view[propName]);
+                    });
                 });
                 queue = $.when(queue, res.promise());
             });

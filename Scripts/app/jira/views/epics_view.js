@@ -28,6 +28,7 @@ define(function (require) {
             this.$el = opts.el ? $(opts.el) : $('<div/>');
             BaseView.prototype.init.apply(this, arguments);
             this.views = [];
+            this.setItems(this.viewModel.getEpics());
         },
         drawItem: function (itemView) {
             itemView.appendTo(this.filterEpics()).draw();

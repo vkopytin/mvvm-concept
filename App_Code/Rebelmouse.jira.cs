@@ -152,8 +152,14 @@ namespace Rebelmouse.jira {
                 if (fields != null) path += String.Format("&fields={0}", String.Join(",", fields));
 
                 var response = ExecuteRequest("GET", path);
+                
+                // Convert a string to utf-8 bytes.
+                byte[] utf8Bytes = System.Text.Encoding.Default.GetBytes(response);
+	
+                // Convert utf-8 bytes to a string.
+                string s_unicode2 = System.Text.Encoding.UTF8.GetString(utf8Bytes);
 
-                var data = deserializer.Deserialize<IssueContainer>(response);
+                var data = deserializer.Deserialize<IssueContainer>(s_unicode2);
                 var issues = data.issues ?? Enumerable.Empty<Issue>();
 
                 foreach (var item in issues) yield return item;

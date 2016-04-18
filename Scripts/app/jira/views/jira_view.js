@@ -39,6 +39,7 @@ define(function (require) {
         },
         draw: function () {
             var data = {
+                    domain: 'https://dev.local'
                 },
                 html = template(data);
                 

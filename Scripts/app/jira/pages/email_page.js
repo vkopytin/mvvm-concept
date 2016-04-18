@@ -1,7 +1,6 @@
 define(function (require) {
     var _ = require('underscore'),
         $ = require('jquery'),
-        EmailView = require('app/jira/views/email_view'),
         BaseView = require('app/jira/base/base_view'),
         Base = require('app/jira/base/base'),
         Utils = require('app/jira/utils'),
